@@ -290,3 +290,96 @@ button[data-action="del-group"]:hover svg, button[data-action="del-link"]:hover 
 .icon-small svg:hover {
   color: #000;
 }
+
+
+/*.......................*/
+/* NOTES SECTION */
+.notes-section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.notes-title {
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.notes-add {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.note-input,
+.note-textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #d0d0d0;
+    font-size: 14px;
+    background: #fafafa;
+}
+
+.note-textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.note-btn {
+    align-self: flex-start;
+    padding: 8px 14px;
+    background: #4a7afe;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.note-btn:hover {
+    background: #3a68e0;
+}
+
+.notes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.note-card {
+    padding: 14px;
+    border-radius: 10px;
+    background: #f7f7f7;
+    border: 1px solid #e0e0e0;
+    position: relative;
+}
+
+.note-card-title {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.note-card-text {
+    white-space: pre-wrap;
+    line-height: 1.4;
+}
+
+.note-delete {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #888;
+}
+
+.note-delete:hover {
+    color: #d33;
+}
