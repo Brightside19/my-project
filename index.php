@@ -79,6 +79,30 @@ $isAuth = !empty($_SESSION['user']);
         </div>
       </header>
 
+      <section class="notes-section">
+          <h2 class="notes-title">Заметки</h2>
+
+          <div class="notes-add">
+              <input 
+                  type="text" 
+                  id="note-title-input" 
+                  class="note-input" 
+                  placeholder="Заголовок"
+              >
+              <textarea 
+                  id="note-content-input" 
+                  class="note-textarea" 
+                  placeholder="Текст заметки..."
+              ></textarea>
+
+              <button id="add-note-btn" class="note-btn">
+                  Добавить заметку
+              </button>
+          </div>
+
+          <div id="notes-container" class="notes-container"></div>
+      </section>
+
       <section class="content">
         <div id="groups-container" class="groups-container"></div>
       </section>
