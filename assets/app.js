@@ -623,3 +623,57 @@ window.addEventListener('load', ()=>{
     loadData();
   }
 });
+
+// === NOTES ===
+async function loadNotes() {
+    const res = await fetch('api.php?type=notes');
+    const notes = await res.json();
+    renderNotes(notes);
+}
+
+function renderNotes(notes) {
+    const container = document.getElementById('notes-container');
+    container.innerHTML = '';
+
+    notes.forEach(note => {
+        const card = document.createElement('div');
+        card.className = 'note-card';
+
+        card.innerHTML = `
+            <button class="note-delete" data-id="${note.id}">×</button>
+            <div class="note-card-title">${note.title}</div>
+            <div class="note-card-text">${note.content}</div>
+        `;
+
+        container.appendChild(card);
+    });
+
+    document.querySelectorAll('.note-delete').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const id = btn.dataset.id;
+            await fetch(`api.php?type=notes&id=${id}`, { method: 'DELETE' });
+            loadNotes();
+        });
+    });
+}
+
+document.getElementById('add-note-btn').addEventListener('click', async () => {
+    const title = document.getElementById('note-title-input').value.trim();
+    const content = document.getElementById('note-content-input').value.trim();
+
+    if (!title && !content) return;
+
+    await fetch('api.php?type=notes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, content })
+    });
+
+    document.getElementById('note-title-input').value = '';
+    document.getElementById('note-content-input').value = '';
+
+    loadNotes();
+});
+
+// Загружаем заметки при старте
+loadNotes();
