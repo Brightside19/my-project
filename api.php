@@ -9,6 +9,7 @@ header('Content-Type: application/json; charset=utf-8');
 
 $method = $_SERVER['REQUEST_METHOD'];
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
+$type = $_GET['type'] ?? '';
 
 if ($action === 'login' && $method === 'POST') {
     $login = trim($_POST['login'] ?? '');
@@ -39,6 +40,47 @@ if (in_array($action, $authRequired, true) && empty($_SESSION['user'])) {
     echo json_encode(['status' => 'error', 'message' => 'Unauthorized']);
     exit;
 }
+
+if ($type === 'notes') {
+    $file = __DIR__ . '/data/notes.json';
+    $notes = json_decode(file_get_contents($file), true);
+
+    // GET
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        echo json_encode($notes);
+        exit;
+    }
+
+    // POST — добавление
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $new = [
+            'id' => time(),
+            'title' => $data['title'] ?? '',
+            'content' => $data['content'] ?? '',
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+
+        $notes[] = $new;
+        file_put_contents($file, json_encode($notes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+        echo json_encode(['status' => 'ok']);
+        exit;
+    }
+
+    // DELETE
+    if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+        $id = $_GET['id'] ?? null;
+        if ($id) {
+            $notes = array_filter($notes, fn($n) => $n['id'] != $id);
+            file_put_contents($file, json_encode(array_values($notes), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        }
+        echo json_encode(['status' => 'ok']);
+        exit;
+    }
+}
+
 
 function load_data() {
     if (!file_exists(DATA_FILE)) {
